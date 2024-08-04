@@ -438,7 +438,7 @@ export class CreateTermComponent implements OnInit, AfterViewInit {
             // framework:this.data.frameworkId,
             // approvalStatus:appConstants.DRAFT,
             parents: [
-              { identifier: `${this.data.frameworkId}_${this.data.columnInfo.code}` }
+              { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.columnInfo.code}` }
             ],
             additionalProperties: {
               displayName:val.dname,
@@ -758,7 +758,7 @@ export class CreateTermComponent implements OnInit, AfterViewInit {
         // framework:this.data.frameworkId,
         // approvalStatus:appConstants.DRAFT,
         parents: [
-          { identifier: `${this.data.frameworkId}_${this.data.columnInfo.code}` }
+          { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.columnInfo.code}` }
         ],
         additionalProperties: {
           displayName: this.createTermForm.value.dname,
@@ -919,7 +919,7 @@ export class CreateTermComponent implements OnInit, AfterViewInit {
         status: appConstants.LIVE,
         // approvalStatus:appConstants.DRAFT,
         parents: [
-          { identifier: `${this.data.frameworkId}_${this.data.columnInfo.code}` }
+          { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.columnInfo.code}` }
         ],
         additionalProperties: {
           displayName:this.createTermForm.value.dname,
