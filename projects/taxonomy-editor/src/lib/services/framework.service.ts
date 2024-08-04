@@ -230,7 +230,7 @@ export class FrameworkService {
     return filteredData
   }
   formateData(response: any) {
-    this.frameworkId = response.result.framework.code;
+    this.frameworkId = response.result.framework.code.toLowerCase();
     // console.log('response', response);
     // // const obj = FRAMEWORK;
     // // const columns: NSFramework.IColumnView[] = [];
