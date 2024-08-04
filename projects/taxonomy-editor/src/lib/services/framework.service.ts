@@ -115,7 +115,7 @@ export class FrameworkService {
   }
 
   getFrameworkId() {
-    return this.frameworkId.toLowerCase()
+    return this.frameworkId
   }
 
 
@@ -230,7 +230,7 @@ export class FrameworkService {
     return filteredData
   }
   formateData(response: any) {
-    this.frameworkId = response.result.framework.code.toLowerCase();
+    this.frameworkId = response.result.framework.code;
     // console.log('response', response);
     // // const obj = FRAMEWORK;
     // // const columns: NSFramework.IColumnView[] = [];

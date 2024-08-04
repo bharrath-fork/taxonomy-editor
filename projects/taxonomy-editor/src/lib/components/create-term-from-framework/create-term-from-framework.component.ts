@@ -373,7 +373,7 @@ export class CreateTermFromFrameworkComponent implements OnInit {
               refType: value.refType || '',
               // approvalStatus:appConstants.DRAFT,
               parents: [
-                { identifier: `${this.data.frameworkId}_${this.data.columnInfo.code}` }
+                { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.columnInfo.code}` }
               ],
               additionalProperties: {
                 competencyArea: localCompArea,
@@ -434,7 +434,7 @@ export class CreateTermFromFrameworkComponent implements OnInit {
                   refId: ele.refId || '',
                   refType: ele.refType || '',
                   parents: [
-                    { identifier: `${this.data.frameworkId}_${this.data.nextColInfo.code}` }
+                    { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.nextColInfo.code}` }
                   ],
                   additionalProperties: {
                     timeStamp: new Date().getTime()
@@ -784,7 +784,7 @@ export class CreateTermFromFrameworkComponent implements OnInit {
           refType: val.refType,
           // approvalStatus:appConstants.DRAFT,
           parents: [
-            { identifier: `${this.data.frameworkId}_${this.data.columnInfo.code}` }
+            { identifier: `${this.data.frameworkId.toLowerCase()}_${this.data.columnInfo.code}` }
           ],
           additionalProperties: {
             timeStamp: new Date().getTime()
