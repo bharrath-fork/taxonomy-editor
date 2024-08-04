@@ -115,7 +115,7 @@ export class FrameworkService {
   }
 
   getFrameworkId() {
-    return this.frameworkId
+    return this.frameworkId.toLowerCase()
   }
 
 
