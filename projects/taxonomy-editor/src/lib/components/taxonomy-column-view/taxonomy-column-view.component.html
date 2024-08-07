@@ -4,7 +4,7 @@
             <div class=rsearch>
                 <!-- <ng-container *ngIf="column?.config?.showSearch"> -->
                     <mat-icon class="color-60 search-icon">search</mat-icon>
-                    <input [(ngModel)]="searchValue" class="sinput color-60" placeholder="Search">
+                    <input type="search" [formControl]="searchValue" class="sinput color-60" placeholder="Search">
                 <!-- </ng-container> -->
             </div>
         </div>

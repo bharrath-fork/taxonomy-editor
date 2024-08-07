@@ -5,6 +5,9 @@ import { ConnectorService } from '../../services/connector.service';
 import { ApprovalService } from '../../services/approval.service';
 import { CardChecked, CardSelection, CardsCount, Card } from '../../models/variable-type.model';
 import * as _ from 'lodash'
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 declare var LeaderLine: any;
 @Component({
   selector: 'lib-taxonomy-column-view',
@@ -23,7 +26,7 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
   newTermSubscription: Subscription = null;
   approvalTerm: any;
   termshafall: Array<Card> = [];
-  searchValue: string = ''
+  searchValue = new FormControl();
   constructor(
     private frameworkService: FrameworkService,
     private connectorService: ConnectorService,
@@ -35,6 +38,12 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
 
   ngOnInit(): void {
     this.subscribeEvents()
+    this.searchValue.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+    ).subscribe((ele: any) => {
+      this.searchFilterData(ele)
+    })
 
     if (this.column.index === 1) {
       this.approvalService.getUpdateList().subscribe((list:any) => {
@@ -245,15 +254,36 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
     //   })
     //   return data
     // } else {
-    const filteredColumnData = this.columnData.filter((child: any) => {
-      if(child.name.toLowerCase().includes(this.searchValue) || 
-      _.get(child, 'refId').toLowerCase().includes(this.searchValue)) {
-        return child
-      }
-    })
+    let localSearchValue = this.searchValue.value
+    let filteredColumnData = []
+    if(localSearchValue) {
+      filteredColumnData = this.columnData.filter((child: any) => {
+        if(child.name.toLowerCase().includes(localSearchValue) || 
+        _.get(child, 'refId').toLowerCase().includes(localSearchValue)) {
+          return child
+        }
+      })
+    } else {
+      filteredColumnData = this.columnData
+    }
+    
     return filteredColumnData
     // }
   }
+
+  searchFilterData(ele: any){
+    const back = this.frameworkService.getPreviousCategory(this.column.code)
+    if(back && back.code) {
+      let backColumData = this.frameworkService.selectionList.get(back.code)
+      if(backColumData.category) {
+        this.frameworkService.removeOldLine()
+      
+        setTimeout(() => {
+          this.frameworkService.currentSelection.next({ type: backColumData.category, data: backColumData, cardRef: backColumData.cardRef })
+        }, 200)
+      }
+    }
+   }
 
   setConnectors(elementClicked, columnItem, mode) {
     this.removeConnectors(elementClicked, 'box' + (this.column.index - 1), this.column.index - 1)
