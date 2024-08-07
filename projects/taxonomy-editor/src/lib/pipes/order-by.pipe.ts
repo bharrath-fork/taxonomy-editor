@@ -9,7 +9,6 @@ export class OrderByPipe implements PipeTransform {
   constructor(private approvalService: ApprovalService){}
 
   transform(value: any, sortBy?: string, order?: string): any{
-    debugger
     // return null;
     if(!sortBy) {
       if(value) {
