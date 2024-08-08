@@ -5,7 +5,7 @@ import { ConnectorService } from '../../services/connector.service';
 import { ApprovalService } from '../../services/approval.service';
 import { CardChecked, CardSelection, CardsCount, Card } from '../../models/variable-type.model';
 import * as _ from 'lodash'
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 declare var LeaderLine: any;
@@ -26,7 +26,7 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
   newTermSubscription: Subscription = null;
   approvalTerm: any;
   termshafall: Array<Card> = [];
-  searchValue = new FormControl();
+  searchValue = new FormControl('', [Validators.required]);
   constructor(
     private frameworkService: FrameworkService,
     private connectorService: ConnectorService,
@@ -39,7 +39,7 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
   ngOnInit(): void {
     this.subscribeEvents()
     this.searchValue.valueChanges.pipe(
-      debounceTime(200),
+      debounceTime(700),
       distinctUntilChanged(),
     ).subscribe((ele: any) => {
       this.searchFilterData(ele)
@@ -259,7 +259,9 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
     if(localSearchValue) {
       filteredColumnData = this.columnData.filter((child: any) => {
         if(child.name.toLowerCase().includes(localSearchValue) || 
-        _.get(child, 'refId').toLowerCase().includes(localSearchValue)) {
+        _.get(child, 'refId').toLowerCase().includes(localSearchValue) || 
+        _.get(child, 'description').toLowerCase().includes(localSearchValue)||
+        _.get(child, 'additionalProperties.displayName').toLowerCase().includes(localSearchValue)) {
           return child
         }
       })
@@ -284,6 +286,10 @@ export class TaxonomyColumnViewComponent implements OnInit, OnDestroy, OnChanges
       }
     }
    }
+
+  clearSearch() {
+    this.searchValue.setValue('')
+  }
 
   setConnectors(elementClicked, columnItem, mode) {
     this.removeConnectors(elementClicked, 'box' + (this.column.index - 1), this.column.index - 1)
