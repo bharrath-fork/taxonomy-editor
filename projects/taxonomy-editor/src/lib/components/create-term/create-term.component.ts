@@ -787,11 +787,8 @@ export class CreateTermComponent implements OnInit, AfterViewInit {
   }
 
   updateTermData(form, data) {
-    debugger
-    const additionalProperties = {
-      displayName: this.createThemeForm.value.dname,
-      timeStamp: data.childrenData && data.childrenData.additionalProperties && data.childrenData.additionalProperties.timeStamp || new Date().getTime()
-    }
+    let additionalProperties =  data.childrenData.additionalProperties
+    additionalProperties['displayName'] = this.createThemeForm.value.dname
     form.value.additionalProperties = additionalProperties
     
     form.value.displayName = form.value.dname
